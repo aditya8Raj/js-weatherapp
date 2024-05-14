@@ -96,3 +96,31 @@ function displayError(message) {
   card.style.display = "flex";
   card.appendChild(errorDisplay);
 }
+
+// loader
+
+const loader = document.querySelector(".loader");
+
+weatherForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const city = cityInput.value;
+
+  if (city) {
+    try {
+      // Show loading spinner
+      loader.style.display = "block";
+
+      const weatherData = await getWeatherData(city);
+      displayWeatherInfo(weatherData);
+    } catch (error) {
+      console.error(error);
+      displayError(error);
+    } finally {
+      // Hide loading spinner regardless of success or failure
+      loader.style.display = "none";
+    }
+  } else {
+    displayError("Please enter city name.");
+  }
+});
